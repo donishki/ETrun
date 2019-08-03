@@ -2,11 +2,7 @@ language: c
 
 dist: trusty
 
-before_install:
-- test $TRAVIS_BRANCH != coverity_scan -o ${TRAVIS_JOB_NUMBER##*.} = 1 || exit 0
-
 script:
-- test $TRAVIS_BRANCH != coverity_scan || exit 0
 - $BUILD_SCRIPT
 
 git:
@@ -16,6 +12,9 @@ git:
 env:
   global:
   - secure: nvn/kowNi9+ji+I3gYBUAv3xy1KFZQztXXtYjfdblwxgUK5vmEze/RcuHzamLQXtHHxsoDMma4F+9iqyMY3HgPGtXJYY8KHU1HVUdJA6mK0Cexbb+yJ5MIKfPPdqta4CUqBsKBcOZDnihymYRSnmLe1jk+jgxPa0efc6xF+UJow=
+
+before_install:
+  - echo -n | openssl s_client -connect https://scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
 
 matrix:
   include:
